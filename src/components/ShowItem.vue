@@ -20,7 +20,7 @@ const isFileType = (child: FileType | FoldersType): child is FileType => {
 
 <template>
   <div
-    class="cursor-pointer transition-all duration-300 rounded-lg hover:bg-pink-500"
+    class="cursor-pointer transition-all duration-300 rounded-lg p-2 hover:bg-pink-500"
   >
     <FileItem v-if="isFileType(item)" :fileName="item.name" />
 

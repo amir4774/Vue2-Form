@@ -1,19 +1,14 @@
 <script setup lang="ts">
-import { inject, provide, reactive, type Reactive } from "vue";
+import { provide, reactive } from "vue";
 import useContextMenu from "@/composables/useContextMenu";
 import ContextMenu from "./ContextMenu.vue";
-import type { ShowContextMenuType } from "@/Types";
 
 defineProps<{
   whichMenu: "file" | "root" | "folder";
 }>();
 
-const { clientX, clientY, setCoordinate } = useContextMenu();
-
-const hideMenu = () => {
-  showContextMenu.app = false;
-  showContextMenu.file = false;
-}
+const { clientX, clientY, showMenu, hideMenu, setCoordinate } =
+  useContextMenu();
 
 const contextMenuStates = reactive({
   isAddingFolder: false,
@@ -22,13 +17,11 @@ const contextMenuStates = reactive({
 });
 
 provide("contextMenuStates", contextMenuStates);
-
-const showContextMenu = inject("showContextMenu") as Reactive<ShowContextMenuType>;
 </script>
 
 <template>
   <ContextMenu
-    v-if="showContextMenu.app || showContextMenu.file"
+    v-if="showMenu"
     :clientX="clientX"
     :clientY="clientY"
     :whichMenu="whichMenu"
@@ -36,5 +29,8 @@ const showContextMenu = inject("showContextMenu") as Reactive<ShowContextMenuTyp
     @add-root-folder="contextMenuStates.isAddingFolder = true"
     @add-root-file="contextMenuStates.isAddingFile = true"
   />
-  <slot :setCoordinate="setCoordinate"></slot>
+  <slot
+    :setCoordinate="setCoordinate"
+    :hideMenu="hideMenu"
+  ></slot>
 </template>
