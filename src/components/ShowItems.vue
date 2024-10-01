@@ -1,18 +1,20 @@
 <script setup lang="ts">
-import { inject, type Reactive } from "vue";
+import { inject, type Reactive, type Ref } from "vue";
 import AddForm from "./AddForm.vue";
 import ShowItem from "./ShowItem.vue";
+import type { contextMenuStatesType, FileType, FoldersType } from "@/Types";
 
 defineProps<{
-  root: any;
+  root: (FoldersType | FileType)[];
 }>();
 
-const isAddingFolder = inject("isAddingFolder");
-const isAddingFile = inject("isAddingFile");
+const contextMenuStates = inject("contextMenuStates") as contextMenuStatesType;
 </script>
 
 <template>
   <ShowItem v-for="item in root" :key="item.id" :item="item" />
 
-  <AddForm v-if="isAddingFolder || isAddingFile" />
+  <AddForm
+    v-if="contextMenuStates.isAddingFolder || contextMenuStates.isAddingFile"
+  />
 </template>

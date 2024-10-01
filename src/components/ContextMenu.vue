@@ -14,12 +14,6 @@ const emit = defineEmits<{
   delete: [];
 }>();
 
-type EmitActionTypes<T extends "root" | "folder" | "file"> = T extends "root"
-  ? "add-root-folder" | "add-root-file"
-  : T extends "folder"
-  ? "add-folder" | "add-file" | "rename" | "delete"
-  : "rename" | "delete";
-
 const emitAction = (action: any) => {
   emit(action);
 };

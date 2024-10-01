@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import FileItem from "./FileItem.vue";
 import ChevronIcon from "./icons/ChevronIcon.vue";
 import type { FileType, FoldersType } from "@/Types";
 
@@ -18,9 +19,12 @@ const isFileType = (child: FileType | FoldersType): child is FileType => {
 </script>
 
 <template>
-  <div>
-    <div v-if="isFileType(item)">{{ (item as FileType).name }}</div>
-    <div v-else class="flex space-x-2 cursor-pointer">
+  <div
+    class="cursor-pointer transition-all duration-300 rounded-lg hover:bg-pink-500"
+  >
+    <FileItem v-if="isFileType(item)" :fileName="item.name" />
+
+    <div v-else class="flex space-x-2">
       <ChevronIcon :selectedIcon="selectIcon()" />
       {{ (item as FoldersType).name }}
     </div>

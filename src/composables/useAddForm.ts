@@ -1,25 +1,28 @@
-import { inject, type Ref } from "vue";
+import type { contextMenuStatesType } from "@/Types";
+import { inject, ref } from "vue";
 
 const useAddForm = () => {
-  const file_folder_name = inject("directoryName") as Ref;
-  const isAddingFile = inject("isAddingFile") as Ref;
-  const isAddingFolder = inject("isAddingFolder") as Ref;
+  const contextMenuStates = inject(
+    "contextMenuStates"
+  ) as contextMenuStatesType;
   const addRootFolder = inject("addRootFolder") as (folderName: string) => void;
   const addRootFile = inject("addRootFile") as (fileName: string) => void;
 
+  const file_folder_name = ref(contextMenuStates.file_folder_name);
+
   const handleSubmit = () => {
-    if (isAddingFolder.value) {
+    if (contextMenuStates.isAddingFolder) {
       addRootFolder(file_folder_name.value);
     } else {
       addRootFile(file_folder_name.value);
     }
 
-    file_folder_name.value = "";
-    isAddingFile.value = false;
-    isAddingFolder.value = false;
+    contextMenuStates.file_folder_name = "";
+    contextMenuStates.isAddingFile = false;
+    contextMenuStates.isAddingFolder = false;
   };
 
-  return { handleSubmit, file_folder_name};
+  return { handleSubmit, file_folder_name };
 };
 
 export default useAddForm;

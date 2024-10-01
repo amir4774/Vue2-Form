@@ -1,29 +1,40 @@
 <script setup lang="ts">
-import { provide, ref } from "vue";
+import { inject, provide, reactive, type Reactive } from "vue";
 import useContextMenu from "@/composables/useContextMenu";
 import ContextMenu from "./ContextMenu.vue";
+import type { ShowContextMenuType } from "@/Types";
 
-const { clientX, clientY, showMenu, hideMenu, setCoordinate } =
-  useContextMenu();
+defineProps<{
+  whichMenu: "file" | "root" | "folder";
+}>();
 
-const isAddingFolder = ref(false);
-const isAddingFile = ref(false);
-const file_folder_name = ref("");
+const { clientX, clientY, setCoordinate } = useContextMenu();
 
-provide("directoryName", file_folder_name);
-provide("isAddingFolder", isAddingFolder);
-provide("isAddingFile", isAddingFile);
+const hideMenu = () => {
+  showContextMenu.app = false;
+  showContextMenu.file = false;
+}
+
+const contextMenuStates = reactive({
+  isAddingFolder: false,
+  isAddingFile: false,
+  file_folder_name: "",
+});
+
+provide("contextMenuStates", contextMenuStates);
+
+const showContextMenu = inject("showContextMenu") as Reactive<ShowContextMenuType>;
 </script>
 
 <template>
   <ContextMenu
-    v-if="showMenu"
+    v-if="showContextMenu.app || showContextMenu.file"
     :clientX="clientX"
     :clientY="clientY"
-    whichMenu="root"
+    :whichMenu="whichMenu"
     @click="hideMenu"
-    @add-root-folder="isAddingFolder = true"
-    @add-root-file="isAddingFile = true"
+    @add-root-folder="contextMenuStates.isAddingFolder = true"
+    @add-root-file="contextMenuStates.isAddingFile = true"
   />
-  <slot :setCoordinate="setCoordinate" :hideMenu="hideMenu"></slot>
+  <slot :setCoordinate="setCoordinate"></slot>
 </template>

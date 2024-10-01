@@ -6,6 +6,6 @@ const { file_folder_name, handleSubmit } = useAddForm();
 
 <template>
   <form @submit.prevent="handleSubmit">
-    <input type="text" v-model="file_folder_name" class="p-2" />
+    <input type="text" v-model="file_folder_name" class="px-1" />
   </form>
 </template>
