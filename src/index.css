@@ -13,3 +13,9 @@ body {
   color: #fff;
   font-family: Arial, Helvetica, sans-serif;
 }
+
+@layer {
+  input {
+    @apply text-xl outline-none rounded-lg;
+  }
+}
