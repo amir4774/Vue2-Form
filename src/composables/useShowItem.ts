@@ -1,13 +1,15 @@
 import type { FileType, FoldersType } from "@/Types";
 
-const useShowItem = (item: FileType | FoldersType) => {
+const useShowItem = (item?: FileType | FoldersType) => {
   const selectIcon = (): "down" | "up" =>
     (item as FoldersType).isOpen ? "down" : "up";
 
-  const isFileType = () => {
+  const isFileType = (child?: FileType | FoldersType) => {
+    const checkedItem = child ?? item;
+
     return (
-      (item as FileType).name !== undefined &&
-      (item as FoldersType).children === undefined
+      (checkedItem as FileType).name !== undefined &&
+      (checkedItem as FoldersType).children === undefined
     );
   };
 

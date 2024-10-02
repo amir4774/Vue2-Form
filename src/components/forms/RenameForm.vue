@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import useFile from "@/composables/useFile";
+import useFileFolder from "@/composables/useFileFolder";
 
 const { id } = defineProps<{
   id: number;
 }>();
 
 const model = defineModel();
-const { hideForm } = useFile({ id });
+const { hideForm } = useFileFolder({ id });
 </script>
 
 <template>

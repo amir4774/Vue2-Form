@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { inject, watch } from "vue";
 import ContextMenuProvider from "../containers/ContextMenuProvider.vue";
-import useFile from "@/composables/useFile";
+import useFileFolder from "@/composables/useFileFolder";
 import type { contextMenuStatesType, FileType } from "@/Types";
 import RenameForm from "../forms/RenameForm.vue";
 
@@ -9,7 +9,7 @@ const { file } = defineProps<{
   file: FileType;
 }>();
 
-const { renameValue, deleteFile } = useFile({
+const { renameValue, deleteItem } = useFileFolder({
   initialValue: file.name,
   id: file.id,
 });
@@ -23,7 +23,7 @@ watch(
   () => contextMenuStates.isDeleting,
   (newVal) => {
     if (newVal) {
-      deleteFile(file.id);
+      deleteItem(file.id);
       contextMenuStates.isDeleting = false;
     }
   }
@@ -31,7 +31,11 @@ watch(
 </script>
 
 <template>
-  <ContextMenuProvider :id="file.id" whichMenu="file" v-slot="{ setCoordinate, hideMenu }">
+  <ContextMenuProvider
+    :id="file.id"
+    whichMenu="file"
+    v-slot="{ setCoordinate, hideMenu }"
+  >
     <div
       @contextmenu.prevent="setCoordinate($event)"
       @click="hideMenu"

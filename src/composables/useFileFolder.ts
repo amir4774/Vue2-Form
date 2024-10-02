@@ -1,12 +1,12 @@
 import { inject, ref, type Ref } from "vue";
 import type { contextMenuStatesType, FileType, FoldersType } from "@/Types";
 
-interface useFolderProps {
+interface useFileFolderProps {
   initialValue?: string;
   id: number;
 }
 
-const useFolder = ({ initialValue, id }: useFolderProps) => {
+const useFileFolder = ({ initialValue, id }: useFileFolderProps) => {
   const getContextMenuState = inject("getContextMenuState") as (
     id: number
   ) => contextMenuStatesType;
@@ -25,12 +25,12 @@ const useFolder = ({ initialValue, id }: useFolderProps) => {
     contextMenuStates.isRename = false;
   };
 
-  const deleteFile = (id: number) => {
+  const deleteItem = (id: number) => {
     deleteFileOrFolder(root.value, id);
     contextMenuStates.isDeleting = false;
   };
 
-  return { renameValue, hideForm, deleteFile };
+  return { renameValue, hideForm, deleteItem };
 };
 
-export default useFolder;
+export default useFileFolder;
