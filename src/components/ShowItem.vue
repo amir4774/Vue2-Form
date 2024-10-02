@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { inject } from "vue";
-import FileItem from "./FileItem.vue";
+import FileItem from "./ui/FileItem.vue";
 import ChevronIcon from "./icons/ChevronIcon.vue";
 import type { contextMenuStatesType, FileType, FoldersType } from "@/Types";
 

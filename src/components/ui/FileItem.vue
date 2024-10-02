@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { inject } from "vue";
-import ContextMenuProvider from "./ContextMenuProvider.vue";
+import ContextMenuProvider from "../containers/ContextMenuProvider.vue";
 import useRename from "@/composables/useRename";
 import type { contextMenuStatesType } from "@/Types";
-import RenameForm from "./RenameForm.vue";
+import RenameForm from "../forms/RenameForm.vue";
 
 const { fileName } = defineProps<{
   fileName: string;

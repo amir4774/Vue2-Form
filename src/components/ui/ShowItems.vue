@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { inject } from "vue";
-import AddForm from "./AddForm.vue";
-import ShowItem from "./ShowItem.vue";
+import AddForm from "../forms/AddForm.vue";
+import ShowItem from "../ShowItem.vue";
 import type { contextMenuStatesType, FileType, FoldersType } from "@/Types";
 
 defineProps<{
