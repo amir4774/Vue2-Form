@@ -18,7 +18,10 @@ const isFileType = (child: FileType | FoldersType): child is FileType => {
   );
 };
 
-const contextMenuStates = inject("contextMenuStates") as contextMenuStatesType;
+const getContextMenuState = inject("getContextMenuState") as (
+  id: number
+) => contextMenuStatesType;
+const contextMenuStates = getContextMenuState(item.id);
 </script>
 
 <template>

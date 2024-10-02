@@ -1,10 +1,16 @@
 import { inject, ref, type Ref } from "vue";
 import type { contextMenuStatesType, FileType, FoldersType } from "@/Types";
 
-const useFile = (initialValue?: string) => {
-  const contextMenuStates = inject(
-    "contextMenuStates"
-  ) as contextMenuStatesType;
+interface useFileProps {
+  initialValue?: string;
+  id: number;
+}
+
+const useFile = ({ initialValue, id }: useFileProps) => {
+  const getContextMenuState = inject("getContextMenuState") as (
+    id: number
+  ) => contextMenuStatesType;
+  const contextMenuStates = getContextMenuState(id);
 
   const deleteFileOrFolder = inject("deleteFileOrFolder") as (
     items: (FoldersType | FileType)[],

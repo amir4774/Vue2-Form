@@ -4,14 +4,24 @@ import useContextMenu from "@/composables/useContextMenu";
 import ContextMenu from "../ContextMenu.vue";
 import type { contextMenuStatesType } from "@/Types";
 
-defineProps<{
+const { id } = defineProps<{
   whichMenu: "file" | "root" | "folder";
+  id?: number;
 }>();
 
 const { clientX, clientY, showMenu, hideMenu, setCoordinate } =
   useContextMenu();
 
-const contextMenuStates = inject("contextMenuStates") as contextMenuStatesType;
+let contextMenuStates: contextMenuStatesType;
+
+if (id) {
+  const getContextMenuState = inject("getContextMenuState") as (
+    id: number
+  ) => contextMenuStatesType;
+  contextMenuStates = getContextMenuState(id);
+} else {
+  contextMenuStates = inject("contextMenuStates") as contextMenuStatesType;
+}
 </script>
 
 <template>

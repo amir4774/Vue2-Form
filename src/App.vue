@@ -4,7 +4,8 @@ import AppAside from "./components/ui/AppAside.vue";
 import { useContextMenuStore } from "./composables/useContextMenuStore";
 import { provide } from "vue";
 
-const { contextMenuStates } = useContextMenuStore();
+const { contextMenuStates, getContextMenuState } = useContextMenuStore();
+provide("getContextMenuState", getContextMenuState);
 provide("contextMenuStates", contextMenuStates);
 </script>
 
