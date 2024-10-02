@@ -24,6 +24,7 @@ const contextMenuStates = inject("contextMenuStates") as contextMenuStatesType;
     @add-root-folder="contextMenuStates.isAddingFolder = true"
     @add-root-file="contextMenuStates.isAddingFile = true"
     @rename="contextMenuStates.isRename = true"
+    @delete="contextMenuStates.isDeleting = true"
   />
   <slot :setCoordinate="setCoordinate" :hideMenu="hideMenu"></slot>
 </template>

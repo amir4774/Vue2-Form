@@ -1,17 +1,26 @@
 <script setup lang="ts">
-import { inject } from "vue";
+import { inject, watch } from "vue";
 import ContextMenuProvider from "../containers/ContextMenuProvider.vue";
-import useRename from "@/composables/useRename";
-import type { contextMenuStatesType } from "@/Types";
+import useFile from "@/composables/useFile";
+import type { contextMenuStatesType, FileType } from "@/Types";
 import RenameForm from "../forms/RenameForm.vue";
 
-const { fileName } = defineProps<{
-  fileName: string;
+const { file } = defineProps<{
+  file: FileType;
 }>();
 
-const { renameValue } = useRename(fileName);
+const { renameValue, deleteFile } = useFile(file.name);
 
 const contextMenuStates = inject("contextMenuStates") as contextMenuStatesType;
+
+watch(
+  () => contextMenuStates.isDeleting,
+  (newVal) => {
+    if (newVal) {
+      deleteFile(file.id);
+    }
+  }
+);
 </script>
 
 <template>

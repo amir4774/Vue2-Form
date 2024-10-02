@@ -27,7 +27,7 @@ const contextMenuStates = inject("contextMenuStates") as contextMenuStatesType;
       contextMenuStates.isRename && 'hover:bg-transparent'
     }`"
   >
-    <FileItem v-if="isFileType(item)" :fileName="item.name" />
+    <FileItem v-if="isFileType(item)" :file="item" />
 
     <div v-else class="flex space-x-2">
       <ChevronIcon :selectedIcon="selectIcon()" />

@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import useRename from "@/composables/useRename";
+import useFile from "@/composables/useFile";
 
 const model = defineModel();
-const { hideForm } = useRename();
+const { hideForm } = useFile();
 </script>
 
 <template>
