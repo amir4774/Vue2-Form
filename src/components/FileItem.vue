@@ -1,15 +1,28 @@
 <script setup lang="ts">
+import { inject } from "vue";
 import ContextMenuProvider from "./ContextMenuProvider.vue";
+import useRename from "@/composables/useRename";
+import type { contextMenuStatesType } from "@/Types";
+import RenameForm from "./RenameForm.vue";
 
-defineProps<{
+const { fileName } = defineProps<{
   fileName: string;
 }>();
+
+const { renameValue } = useRename(fileName);
+
+const contextMenuStates = inject("contextMenuStates") as contextMenuStatesType;
 </script>
 
 <template>
   <ContextMenuProvider whichMenu="file" v-slot="{ setCoordinate, hideMenu }">
-    <div @contextmenu.prevent="setCoordinate($event)" @click="hideMenu">
-      <h3>{{ fileName }}</h3>
+    <div
+      @contextmenu.prevent="setCoordinate($event)"
+      @click="hideMenu"
+      v-click-outside="hideMenu"
+    >
+      <h3 v-if="!contextMenuStates.isRename">{{ renameValue }}</h3>
+      <RenameForm v-else v-model="renameValue" />
     </div>
   </ContextMenuProvider>
 </template>

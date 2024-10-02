@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { provide, reactive } from "vue";
+import { inject, provide, reactive } from "vue";
 import useContextMenu from "@/composables/useContextMenu";
 import ContextMenu from "./ContextMenu.vue";
+import type { contextMenuStatesType } from "@/Types";
 
 defineProps<{
   whichMenu: "file" | "root" | "folder";
@@ -10,13 +11,7 @@ defineProps<{
 const { clientX, clientY, showMenu, hideMenu, setCoordinate } =
   useContextMenu();
 
-const contextMenuStates = reactive({
-  isAddingFolder: false,
-  isAddingFile: false,
-  file_folder_name: "",
-});
-
-provide("contextMenuStates", contextMenuStates);
+const contextMenuStates = inject("contextMenuStates") as contextMenuStatesType;
 </script>
 
 <template>
@@ -28,9 +23,7 @@ provide("contextMenuStates", contextMenuStates);
     @click="hideMenu"
     @add-root-folder="contextMenuStates.isAddingFolder = true"
     @add-root-file="contextMenuStates.isAddingFile = true"
+    @rename="contextMenuStates.isRename = true"
   />
-  <slot
-    :setCoordinate="setCoordinate"
-    :hideMenu="hideMenu"
-  ></slot>
+  <slot :setCoordinate="setCoordinate" :hideMenu="hideMenu"></slot>
 </template>

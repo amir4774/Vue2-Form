@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { inject, type Reactive, type Ref } from "vue";
+import { inject } from "vue";
 import AddForm from "./AddForm.vue";
 import ShowItem from "./ShowItem.vue";
 import type { contextMenuStatesType, FileType, FoldersType } from "@/Types";

@@ -1,7 +1,8 @@
 <script setup lang="ts">
+import { inject } from "vue";
 import FileItem from "./FileItem.vue";
 import ChevronIcon from "./icons/ChevronIcon.vue";
-import type { FileType, FoldersType } from "@/Types";
+import type { contextMenuStatesType, FileType, FoldersType } from "@/Types";
 
 const { item } = defineProps<{
   item: FoldersType | FileType;
@@ -16,11 +17,15 @@ const isFileType = (child: FileType | FoldersType): child is FileType => {
     (child as FoldersType).children === undefined
   );
 };
+
+const contextMenuStates = inject("contextMenuStates") as contextMenuStatesType;
 </script>
 
 <template>
   <div
-    class="cursor-pointer transition-all duration-300 rounded-lg p-2 hover:bg-pink-500"
+    :class="`cursor-pointer transition-all duration-300 rounded-lg hover:bg-pink-500 ${
+      contextMenuStates.isRename && 'hover:bg-transparent'
+    }`"
   >
     <FileItem v-if="isFileType(item)" :fileName="item.name" />
 

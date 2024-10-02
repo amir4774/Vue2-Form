@@ -14,6 +14,7 @@ defineProps<{
       class="relative min-h-screen w-[400px] bg-red-300 text-black p-12"
       @contextmenu.prevent="setCoordinate($event)"
       @click="hideMenu"
+      v-click-outside="hideMenu"
     >
       <div class="flex flex-col space-y-3">
         <ShowItems :root="root" />

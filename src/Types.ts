@@ -11,6 +11,7 @@ export interface FoldersType extends FileType {
 export interface contextMenuStatesType {
   isAddingFolder: boolean;
   isAddingFile: boolean;
+  isRename: boolean;
   file_folder_name: string;
 }
 
