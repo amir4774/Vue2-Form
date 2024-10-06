@@ -4,13 +4,12 @@ import ContextMenuProvider from "../containers/ContextMenuProvider.vue";
 import useFileFolder from "@/composables/useFileFolder";
 import type { contextMenuStatesType, FileType } from "@/Types";
 import RenameForm from "../forms/RenameForm.vue";
-import useClass from "@/composables/useClass";
+import FileFolderWrapper from "../containers/FileFolderWrapper.vue";
 
 const { file } = defineProps<{
   file: FileType;
 }>();
 
-const className = useClass();
 const { renameValue, deleteItem } = useFileFolder({
   initialValue: file.name,
   id: file.id,
@@ -38,16 +37,14 @@ watch(
     whichMenu="file"
     v-slot="{ setCoordinate, hideMenu }"
   >
-    <div
+    <FileFolderWrapper
       @contextmenu.prevent="setCoordinate($event)"
       @click="hideMenu"
       v-click-outside="hideMenu"
-      :class="`${className} ${
-        contextMenuStates.isRename && 'hover:bg-transparent'
-      }`"
+      :isRename="contextMenuStates.isRename"
     >
       <h3 v-if="!contextMenuStates.isRename">{{ renameValue }}</h3>
       <RenameForm v-else v-model="renameValue" :id="file.id" />
-    </div>
+    </FileFolderWrapper>
   </ContextMenuProvider>
 </template>
