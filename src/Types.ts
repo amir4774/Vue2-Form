@@ -13,6 +13,7 @@ export interface contextMenuStatesType {
   isAddingFile: boolean;
   isRename: boolean;
   isDeleting: boolean;
+  isAddFileToFolder: boolean;
   file_folder_name: string;
 }
 

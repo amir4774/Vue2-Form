@@ -12,6 +12,7 @@ export const useContextMenuStore = () => {
         isAddingFile: false,
         isRename: false,
         isDeleting: false,
+        isAddFileToFolder: false,
         file_folder_name: "",
       };
     }

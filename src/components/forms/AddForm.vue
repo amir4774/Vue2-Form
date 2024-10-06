@@ -1,7 +1,11 @@
 <script setup lang="ts">
 import useAddForm from "@/composables/useAddForm";
 
-const { file_folder_name, handleSubmit } = useAddForm();
+const { folderId } = defineProps<{
+  folderId?: number;
+}>();
+
+const { file_folder_name, handleSubmit } = useAddForm(folderId);
 </script>
 
 <template>

@@ -27,6 +27,17 @@ const useRoot = () => {
     });
   };
 
+  const addFileToFolder = (folderId: number, fileName: string) => {
+    const selectedFolder = root.value.find(
+      (item) => item.id === folderId
+    ) as FoldersType;
+
+    const id = useId();
+    const newFile: FileType = { name: fileName, id };
+
+    selectedFolder.children.push(newFile);
+  };
+
   const deleteFileOrFolder = (
     items: (FoldersType | FileType)[],
     idToDelete: number
@@ -58,6 +69,7 @@ const useRoot = () => {
     addRootFolder,
     addRootFile,
     deleteFileOrFolder,
+    addFileToFolder
   };
 };
 

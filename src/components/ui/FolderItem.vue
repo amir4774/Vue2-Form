@@ -6,7 +6,9 @@ import ContextMenuProvider from "../containers/ContextMenuProvider.vue";
 import FileItem from "./FileItem.vue";
 import RenameForm from "../forms/RenameForm.vue";
 import ChevronIcon from "../icons/ChevronIcon.vue";
+import AddForm from "../forms/AddForm.vue";
 import type { contextMenuStatesType, FoldersType } from "@/Types";
+import useClass from "@/composables/useClass";
 
 const { folder } = defineProps<{
   folder: FoldersType;
@@ -14,6 +16,7 @@ const { folder } = defineProps<{
 
 const { isFileType } = useShowItem();
 const { selectIcon } = useShowItem(folder);
+const className = useClass("folder");
 const { renameValue, deleteItem } = useFileFolder({
   initialValue: folder.name,
   id: folder.id,
@@ -42,7 +45,9 @@ watch(
     v-slot="{ setCoordinate, hideMenu }"
   >
     <div
-      class="flex space-x-2"
+      :class="`${className} ${
+        contextMenuStates.isRename && 'hover:bg-transparent'
+      }`"
       @contextmenu.prevent="setCoordinate($event)"
       @click="hideMenu"
       v-click-outside="hideMenu"
@@ -50,18 +55,19 @@ watch(
       <ChevronIcon :selectedIcon="selectIcon()" />
       <h3 v-if="!contextMenuStates.isRename">{{ renameValue }}</h3>
       <RenameForm v-else v-model="renameValue" :id="folder.id" />
+    </div>
 
-      <div class="ml-5" v-for="item in folder.children">
-        <div
-          :class="`ml-5 cursor-pointer transition-all duration-300 rounded-lg hover:bg-pink-500 ${
-            contextMenuStates.isRename && 'hover:bg-transparent'
-          }`"
-        >
-          <FileItem v-if="isFileType(item)" :file="item" />
+    <div class="ml-10" v-for="item in folder.children">
+      <FileItem v-if="isFileType(item)" :file="item" />
 
-          <FolderItem v-else :folder="(item as FoldersType)" />
-        </div>
-      </div>
+      <FolderItem v-else :folder="(item as FoldersType)" />
+    </div>
+
+    <div class="ml-10">
+      <AddForm
+        :folderId="folder.id"
+        v-if="contextMenuStates.isAddFileToFolder"
+      />
     </div>
   </ContextMenuProvider>
 </template>

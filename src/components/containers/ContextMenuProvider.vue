@@ -35,6 +35,7 @@ if (id) {
     @add-root-file="contextMenuStates.isAddingFile = true"
     @rename="contextMenuStates.isRename = true"
     @delete="contextMenuStates.isDeleting = true"
+    @add-file="contextMenuStates.isAddFileToFolder = true"
   />
   <slot :setCoordinate="setCoordinate" :hideMenu="hideMenu"></slot>
 </template>
