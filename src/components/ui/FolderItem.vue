@@ -14,9 +14,9 @@ const { folder } = defineProps<{
   folder: FoldersType;
 }>();
 
-const { isFileType } = useShowItem();
+const { isFileType } = useShowItem(folder);
 const { selectIcon } = useShowItem(folder);
-const className = useClass("folder");
+const className = useClass();
 const { renameValue, deleteItem } = useFileFolder({
   initialValue: folder.name,
   id: folder.id,
@@ -52,18 +52,29 @@ watch(
       @click="hideMenu"
       v-click-outside="hideMenu"
     >
-      <ChevronIcon :selectedIcon="selectIcon()" />
-      <h3 v-if="!contextMenuStates.isRename">{{ renameValue }}</h3>
-      <RenameForm v-else v-model="renameValue" :id="folder.id" />
+      <div
+        @click="folder.isOpen = !folder.isOpen"
+        class="flex space-x-2 w-full"
+      >
+        <ChevronIcon :selectedIcon="selectIcon()" />
+        <h3 v-if="!contextMenuStates.isRename">{{ renameValue }}</h3>
+        <RenameForm v-else v-model="renameValue" :id="folder.id" />
+      </div>
     </div>
 
-    <div class="ml-10" v-for="item in folder.children">
+    <div
+      :class="`${
+        folder.isOpen && folder.children && 'border-l-2'
+      } ml-7 pl-2 border-indigo-500`"
+      v-if="folder.isOpen"
+      v-for="item in folder.children"
+    >
       <FileItem v-if="isFileType(item)" :file="item" />
 
       <FolderItem v-else :folder="(item as FoldersType)" />
     </div>
 
-    <div class="ml-10">
+    <div class="ml-7">
       <AddForm
         :folderId="folder.id"
         v-if="

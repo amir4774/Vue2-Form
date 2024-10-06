@@ -1,6 +1,6 @@
 import type { FileType, FoldersType } from "@/Types";
 
-const useShowItem = (item?: FileType | FoldersType) => {
+const useShowItem = (item: FileType | FoldersType) => {
   const selectIcon = (): "down" | "up" =>
     (item as FoldersType).isOpen ? "down" : "up";
 
