@@ -37,26 +37,7 @@ const useRoot = () => {
 
     const root_items = items ?? root.value;
 
-    for (let i = 0; i < root_items.length; i++) {
-      if (root_items[i].id === folderId) {
-        // Add element to folder
-        const selectedFolder = root_items[i] as FoldersType;
-        selectedFolder.children.push(newFile);
-        return true;
-      }
-
-      // If it's a folder and has children, check recursively
-      if (
-        "children" in root_items[i] &&
-        Array.isArray((root_items[i] as FoldersType).children)
-      ) {
-        const folder = root_items[i] as FoldersType;
-        const found = addFileToFolder(folderId, fileName, folder.children);
-        if (found) {
-          return true;
-        }
-      }
-    }
+    search(newFile, root_items, folderId, fileName, addFileToFolder);
 
     return false;
   };
@@ -76,11 +57,27 @@ const useRoot = () => {
 
     const root_items = items ?? root.value;
 
+    search(newFolder, root_items, folderId, folderName, addFolderToFolder);
+
+    return false;
+  };
+
+  const search = (
+    newItem: FoldersType | FileType,
+    root_items: (FoldersType | FileType)[],
+    folderId: number,
+    name: string,
+    callBack: (
+      folderId: number,
+      name: string,
+      items: (FoldersType | FileType)[]
+    ) => boolean
+  ) => {
     for (let i = 0; i < root_items.length; i++) {
       if (root_items[i].id === folderId) {
         // Add element to folder
         const selectedFolder = root_items[i] as FoldersType;
-        selectedFolder.children.push(newFolder);
+        selectedFolder.children.push(newItem);
         return true;
       }
 
@@ -90,14 +87,12 @@ const useRoot = () => {
         Array.isArray((root_items[i] as FoldersType).children)
       ) {
         const folder = root_items[i] as FoldersType;
-        const found = addFolderToFolder(folderId, folderName, folder.children);
+        const found = callBack(folderId, name, folder.children);
         if (found) {
           return true;
         }
       }
     }
-
-    return false;
   };
 
   const deleteFileOrFolder = (
