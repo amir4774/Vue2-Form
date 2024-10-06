@@ -22,3 +22,15 @@ export interface ShowContextMenuType {
   app: boolean;
   file: boolean;
 }
+
+export interface SearchFunctionProps {
+  newItem: FoldersType | FileType;
+  root_items: (FoldersType | FileType)[];
+  folderId: number;
+  name: string;
+  callBack: (
+    folderId: number,
+    name: string,
+    root_items: (FoldersType | FileType)[]
+  ) => boolean;
+}

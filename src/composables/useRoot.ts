@@ -1,6 +1,6 @@
 import { ref } from "vue";
 import useId from "./useId";
-import type { FileType, FoldersType } from "@/Types";
+import type { FileType, FoldersType, SearchFunctionProps } from "@/Types";
 
 const useRoot = () => {
   const root = ref<(FoldersType | FileType)[]>([]);
@@ -37,7 +37,13 @@ const useRoot = () => {
 
     const root_items = items ?? root.value;
 
-    search(newFile, root_items, folderId, fileName, addFileToFolder);
+    search({
+      newItem: newFile,
+      root_items,
+      folderId,
+      name: fileName,
+      callBack: addFileToFolder,
+    });
 
     return false;
   };
@@ -57,22 +63,24 @@ const useRoot = () => {
 
     const root_items = items ?? root.value;
 
-    search(newFolder, root_items, folderId, folderName, addFolderToFolder);
+    search({
+      newItem: newFolder,
+      root_items: root_items,
+      folderId: folderId,
+      name: folderName,
+      callBack: addFolderToFolder,
+    });
 
     return false;
   };
 
-  const search = (
-    newItem: FoldersType | FileType,
-    root_items: (FoldersType | FileType)[],
-    folderId: number,
-    name: string,
-    callBack: (
-      folderId: number,
-      name: string,
-      items: (FoldersType | FileType)[]
-    ) => boolean
-  ) => {
+  const search = ({
+    newItem,
+    root_items,
+    folderId,
+    name,
+    callBack,
+  }: SearchFunctionProps) => {
     for (let i = 0; i < root_items.length; i++) {
       if (root_items[i].id === folderId) {
         // Add element to folder
