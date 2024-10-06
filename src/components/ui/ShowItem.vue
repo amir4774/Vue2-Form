@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import FileItem from "./ui/FileItem.vue";
+import FileItem from "./FileItem.vue";
 import useShowItem from "@/composables/useShowItem";
-import FolderItem from "./ui/FolderItem.vue";
+import FolderItem from "./FolderItem.vue";
 import type { FileType, FoldersType } from "@/Types";
 
 const { item } = defineProps<{

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import ContextMenuProvider from "./components/containers/ContextMenuProvider.vue";
+import ContextMenuProvider from "./components/providers/ContextMenuProvider.vue";
 import AppAside from "./components/ui/AppAside.vue";
 import { useContextMenuStore } from "./composables/useContextMenuStore";
 import { provide } from "vue";

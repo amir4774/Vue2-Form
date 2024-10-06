@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import { inject, watch } from "vue";
+import { inject } from "vue";
 import useShowItem from "@/composables/useShowItem";
 import useFileFolder from "@/composables/useFileFolder";
-import ContextMenuProvider from "../containers/ContextMenuProvider.vue";
+import useContextMenuFolder from "@/composables/useContextMenuFolder";
+import ContextMenuProvider from "../providers/ContextMenuProvider.vue";
 import FileItem from "./FileItem.vue";
 import AddForm from "../forms/AddForm.vue";
-import FileFolderWrapper from "../containers/FileFolderWrapper.vue";
+import FileFolderWrapper from "../providers/FileFolderWrapper.vue";
 import ChevronIcon from "../icons/ChevronIcon.vue";
 import RenameForm from "../forms/RenameForm.vue";
 import type { contextMenuStatesType, FoldersType } from "@/Types";
@@ -25,15 +26,7 @@ const getContextMenuState = inject("getContextMenuState") as (
 ) => contextMenuStatesType;
 const contextMenuStates = getContextMenuState(folder.id);
 
-watch(
-  () => contextMenuStates.isDeleting,
-  (newVal) => {
-    if (newVal) {
-      deleteItem(folder.id);
-      contextMenuStates.isDeleting = false;
-    }
-  }
-);
+useContextMenuFolder(folder, deleteItem);
 </script>
 
 <template>
@@ -43,9 +36,8 @@ watch(
     v-slot="{ setCoordinate, hideMenu }"
   >
     <FileFolderWrapper
-      @contextmenu.prevent="setCoordinate($event)"
-      @click="hideMenu"
-      v-click-outside="hideMenu"
+      :hideMenu="hideMenu"
+      :setCoordinate="setCoordinate"
       :isRename="contextMenuStates.isRename"
     >
       <div
@@ -57,6 +49,16 @@ watch(
         <RenameForm v-else v-model="renameValue" :id="folder.id" /></div
     ></FileFolderWrapper>
 
+    <div class="ml-7">
+      <AddForm
+        :folderId="folder.id"
+        v-if="
+          contextMenuStates.isAddFileToFolder ||
+          contextMenuStates.isAddFolderToFolder
+        "
+      />
+    </div>
+
     <div
       :class="`${
         folder.isOpen && folder.children && 'border-l-2'
@@ -67,16 +69,6 @@ watch(
       <FileItem v-if="isFileType(item)" :file="item" />
 
       <FolderItem v-else :folder="(item as FoldersType)" />
-    </div>
-
-    <div class="ml-7">
-      <AddForm
-        :folderId="folder.id"
-        v-if="
-          contextMenuStates.isAddFileToFolder ||
-          contextMenuStates.isAddFolderToFolder
-        "
-      />
     </div>
   </ContextMenuProvider>
 </template>

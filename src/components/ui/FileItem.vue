@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { inject, watch } from "vue";
-import ContextMenuProvider from "../containers/ContextMenuProvider.vue";
+import ContextMenuProvider from "../providers/ContextMenuProvider.vue";
 import useFileFolder from "@/composables/useFileFolder";
 import type { contextMenuStatesType, FileType } from "@/Types";
 import RenameForm from "../forms/RenameForm.vue";
-import FileFolderWrapper from "../containers/FileFolderWrapper.vue";
+import FileFolderWrapper from "../providers/FileFolderWrapper.vue";
 
 const { file } = defineProps<{
   file: FileType;
@@ -38,9 +38,8 @@ watch(
     v-slot="{ setCoordinate, hideMenu }"
   >
     <FileFolderWrapper
-      @contextmenu.prevent="setCoordinate($event)"
-      @click="hideMenu"
-      v-click-outside="hideMenu"
+      :hideMenu="hideMenu"
+      :setCoordinate="setCoordinate"
       :isRename="contextMenuStates.isRename"
     >
       <h3 v-if="!contextMenuStates.isRename">{{ renameValue }}</h3>

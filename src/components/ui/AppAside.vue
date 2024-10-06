@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import ShowItems from "./ShowItems.vue";
-import AppAsideContainer from "../containers/AppAsideContainer.vue";
+import AppAsideContainer from "../providers/AppAsideContainer.vue";
 
 defineProps<{
   hideMenu: () => void;

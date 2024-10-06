@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { inject } from "vue";
 import useContextMenu from "@/composables/useContextMenu";
-import ContextMenu from "../ContextMenu.vue";
+import ContextMenu from "../ui/ContextMenu.vue";
 import type { contextMenuStatesType } from "@/Types";
 
 const { id } = defineProps<{
