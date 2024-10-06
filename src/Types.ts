@@ -14,6 +14,7 @@ export interface contextMenuStatesType {
   isRename: boolean;
   isDeleting: boolean;
   isAddFileToFolder: boolean;
+  isAddFolderToFolder: boolean;
   file_folder_name: string;
 }
 

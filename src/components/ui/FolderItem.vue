@@ -66,7 +66,10 @@ watch(
     <div class="ml-10">
       <AddForm
         :folderId="folder.id"
-        v-if="contextMenuStates.isAddFileToFolder"
+        v-if="
+          contextMenuStates.isAddFileToFolder ||
+          contextMenuStates.isAddFolderToFolder
+        "
       />
     </div>
   </ContextMenuProvider>

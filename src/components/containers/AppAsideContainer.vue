@@ -7,6 +7,7 @@ const {
   addRootFolder,
   addRootFile,
   addFileToFolder,
+  addFolderToFolder,
   deleteFileOrFolder,
 } = useRoot();
 
@@ -14,6 +15,7 @@ provide("root", root);
 provide("addRootFolder", addRootFolder);
 provide("addRootFile", addRootFile);
 provide("addFileToFolder", addFileToFolder);
+provide("addFolderToFolder", addFolderToFolder);
 provide("deleteFileOrFolder", deleteFileOrFolder);
 </script>
 

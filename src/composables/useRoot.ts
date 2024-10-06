@@ -27,15 +27,77 @@ const useRoot = () => {
     });
   };
 
-  const addFileToFolder = (folderId: number, fileName: string) => {
-    const selectedFolder = root.value.find(
-      (item) => item.id === folderId
-    ) as FoldersType;
-
+  const addFileToFolder = (
+    folderId: number,
+    fileName: string,
+    items?: (FoldersType | FileType)[]
+  ) => {
     const id = useId();
     const newFile: FileType = { name: fileName, id };
 
-    selectedFolder.children.push(newFile);
+    const root_items = items ?? root.value;
+
+    for (let i = 0; i < root_items.length; i++) {
+      if (root_items[i].id === folderId) {
+        // Add element to folder
+        const selectedFolder = root_items[i] as FoldersType;
+        selectedFolder.children.push(newFile);
+        return true;
+      }
+
+      // If it's a folder and has children, check recursively
+      if (
+        "children" in root_items[i] &&
+        Array.isArray((root_items[i] as FoldersType).children)
+      ) {
+        const folder = root_items[i] as FoldersType;
+        const found = addFileToFolder(folderId, fileName, folder.children);
+        if (found) {
+          return true;
+        }
+      }
+    }
+
+    return false;
+  };
+
+  const addFolderToFolder = (
+    folderId: number,
+    folderName: string,
+    items?: (FoldersType | FileType)[]
+  ) => {
+    const id = useId();
+    const newFolder: FoldersType = {
+      name: folderName,
+      id,
+      children: [],
+      isOpen: false,
+    };
+
+    const root_items = items ?? root.value;
+
+    for (let i = 0; i < root_items.length; i++) {
+      if (root_items[i].id === folderId) {
+        // Add element to folder
+        const selectedFolder = root_items[i] as FoldersType;
+        selectedFolder.children.push(newFolder);
+        return true;
+      }
+
+      // If it's a folder and has children, check recursively
+      if (
+        "children" in root_items[i] &&
+        Array.isArray((root_items[i] as FoldersType).children)
+      ) {
+        const folder = root_items[i] as FoldersType;
+        const found = addFolderToFolder(folderId, folderName, folder.children);
+        if (found) {
+          return true;
+        }
+      }
+    }
+
+    return false;
   };
 
   const deleteFileOrFolder = (
@@ -69,7 +131,8 @@ const useRoot = () => {
     addRootFolder,
     addRootFile,
     deleteFileOrFolder,
-    addFileToFolder
+    addFileToFolder,
+    addFolderToFolder,
   };
 };
 

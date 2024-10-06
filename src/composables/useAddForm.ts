@@ -1,5 +1,5 @@
 import { inject, ref } from "vue";
-import type { contextMenuStatesType } from "@/Types";
+import type { contextMenuStatesType, FileType, FoldersType } from "@/Types";
 
 const useAddForm = (folderId?: number) => {
   let contextMenuStates: contextMenuStatesType;
@@ -19,6 +19,11 @@ const useAddForm = (folderId?: number) => {
     folderId: number,
     fileName: string
   ) => void;
+  const addFolderToFolder = inject("addFolderToFolder") as (
+    folderId: number,
+    folderName: string,
+    items?: (FoldersType | FileType)[]
+  ) => void;
 
   const file_folder_name = ref(contextMenuStates.file_folder_name);
 
@@ -29,12 +34,15 @@ const useAddForm = (folderId?: number) => {
       addRootFile(file_folder_name.value);
     } else if (contextMenuStates.isAddFileToFolder) {
       addFileToFolder(folderId ?? 0, file_folder_name.value);
+    } else if (contextMenuStates.isAddFolderToFolder) {
+      addFolderToFolder(folderId ?? 0, file_folder_name.value);
     }
 
     contextMenuStates.file_folder_name = "";
     contextMenuStates.isAddingFile = false;
     contextMenuStates.isAddingFolder = false;
     contextMenuStates.isAddFileToFolder = false;
+    contextMenuStates.isAddFolderToFolder = false;
   };
 
   return { handleSubmit, file_folder_name };
