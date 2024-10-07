@@ -1,6 +1,6 @@
 import { createApp } from "vue";
 import App from "./App.vue";
-import ClickOutside from "./ClickOutsideDirective";
+import ClickOutside from "./composables/ClickOutsideDirective";
 import "./index.css";
 
 const app = createApp(App);

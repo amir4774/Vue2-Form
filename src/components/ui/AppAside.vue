@@ -11,7 +11,7 @@ defineProps<{
 <template>
   <AppAsideContainer v-slot="{ root }">
     <aside
-      class="relative min-h-screen w-[500px] bg-red-300 text-black p-12"
+      class="relative min-h-screen w-[500px] bg-red-300 text-black p-3"
       @contextmenu.prevent="setCoordinate($event)"
       @click="hideMenu"
       v-click-outside="hideMenu"

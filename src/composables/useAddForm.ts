@@ -38,6 +38,10 @@ const useAddForm = (folderId?: number) => {
       addFolderToFolder(folderId ?? 0, file_folder_name.value);
     }
 
+    hideForm();
+  };
+
+  const hideForm = () => {
     contextMenuStates.file_folder_name = "";
     contextMenuStates.isAddingFile = false;
     contextMenuStates.isAddingFolder = false;
@@ -45,7 +49,7 @@ const useAddForm = (folderId?: number) => {
     contextMenuStates.isAddFolderToFolder = false;
   };
 
-  return { handleSubmit, file_folder_name };
+  return { handleSubmit, hideForm, file_folder_name };
 };
 
 export default useAddForm;
