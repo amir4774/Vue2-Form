@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import useFileFolder from "@/composables/useFileFolder";
 import { ref } from "vue";
+import useFileFolder from "@/composables/useFileFolder";
+import useRef from "@/composables/useRef";
 
 const { id } = defineProps<{
   id: number;
@@ -8,6 +9,7 @@ const { id } = defineProps<{
 
 const model = defineModel();
 const { hideForm } = useFileFolder({ id });
+const { myInput } = useRef();
 
 const mountForm = ref(1);
 
@@ -21,6 +23,6 @@ const handleHideForm = () => {
 
 <template>
   <form @submit.prevent="hideForm" v-click-outside="handleHideForm">
-    <input type="text" v-model="model" class="px-1" />
+    <input type="text" ref="myInput" v-model="model" class="px-1" />
   </form>
 </template>
